@@ -38,98 +38,6 @@ void FMC_Close(void)
 }
 
 /**
-  * @brief     Config XOM Region
-  * @param[in] u32XomNum    The XOM number(0~3)
-  * @param[in] u32XomBase   The XOM region base address.
-  * @param[in] u8XomPage   The XOM page number of region size.
-  *
-  * @retval   0   Success
-  * @retval   1   XOM is has already actived.
-  * @retval   -1  Program failed.
-  * @retval   -2  Invalid XOM number.
-  *
-  * @details  Program XOM base address and XOM size(page)
-  * @note     Global error code g_FMC_i32ErrCode
-  *           -1  Program failed or program time-out
-  *           -2  Invalid XOM number.
-  */
-int32_t FMC_ConfigXOM(uint32_t u32XomNum, uint32_t u32XomBase, uint8_t u8XomPage)
-{
-    int32_t   tout;
-    int32_t   ret;
-
-    g_FMC_i32ErrCode = 0;
-
-    if (u32XomNum >= 4UL)
-    {
-        g_FMC_i32ErrCode = -2;
-        return -2;
-    }
-
-    ret = FMC_GetXOMState(u32XomNum);
-    if (ret != 0)
-        return ret;
-
-    FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
-    FMC->ISPADDR = FMC_XOM_BASE + (u32XomNum * 0x10u);
-    FMC->ISPDAT = u32XomBase;
-    FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-    tout = FMC_TIMEOUT_WRITE;
-    while ((tout-- > 0) && (FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk)) {}
-    if (tout <= 0)
-    {
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-
-    if (FMC->ISPSTS & FMC_ISPSTS_ISPFF_Msk)
-    {
-        FMC->ISPSTS |= FMC_ISPSTS_ISPFF_Msk;
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-
-    FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
-    FMC->ISPADDR = FMC_XOM_BASE + (u32XomNum * 0x10u + 0x04u);
-    FMC->ISPDAT = u8XomPage;
-    FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-    tout = FMC_TIMEOUT_WRITE;
-    while ((tout-- > 0) && (FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk)) {}
-    if (tout <= 0)
-    {
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-
-    if(FMC->ISPSTS & FMC_ISPSTS_ISPFF_Msk)
-    {
-        FMC->ISPSTS |= FMC_ISPSTS_ISPFF_Msk;
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-
-    FMC->ISPCMD = FMC_ISPCMD_PROGRAM;
-    FMC->ISPADDR = FMC_XOM_BASE + (u32XomNum * 0x10u + 0x08u);
-    FMC->ISPDAT = 0u;
-    FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-    tout = FMC_TIMEOUT_WRITE;
-    while ((tout-- > 0) && (FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk)) {}
-    if (tout <= 0)
-    {
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-
-    if(FMC->ISPSTS & FMC_ISPSTS_ISPFF_Msk)
-    {
-        FMC->ISPSTS |= FMC_ISPSTS_ISPFF_Msk;
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-    return 0;
-}
-
-/**
   * @brief Execute FMC_ISPCMD_PAGE_ERASE command to erase a flash page. The page size is 4096 bytes.
   * @param[in]  u32PageAddr Address of the flash page to be erased.
   *             It must be a 4096 bytes aligned address.
@@ -146,50 +54,8 @@ int32_t FMC_Erase(uint32_t u32PageAddr)
 
     g_FMC_i32ErrCode = 0;
 
-    if (u32PageAddr == FMC_SPROM_BASE)
-    {
-        return FMC_Erase_SPROM();
-    }
-
     FMC->ISPCMD = FMC_ISPCMD_PAGE_ERASE;
     FMC->ISPADDR = u32PageAddr;
-    FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
-
-    tout = FMC_TIMEOUT_ERASE;
-    while ((tout-- > 0) && (FMC->MPSTS & FMC_MPSTS_MPBUSY_Msk)) {}
-    if (tout <= 0)
-    {
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-
-    if (FMC->ISPCTL & FMC_ISPCTL_ISPFF_Msk)
-    {
-        FMC->ISPCTL |= FMC_ISPCTL_ISPFF_Msk;
-        g_FMC_i32ErrCode = -1;
-        return -1;
-    }
-    return 0;
-}
-
-
-/**
-  * @brief Execute FMC_ISPCMD_PAGE_ERASE command to erase SPROM. The page size is 4096 bytes.
-  * @return   SPROM page erase success or not.
-  * @retval   0  Success
-  * @retval   -1  Erase failed
-  *
-  * @note     Global error code g_FMC_i32ErrCode
-  *           -1  Erase failed or erase time-out
-  */
-int32_t FMC_Erase_SPROM(void)
-{
-    int32_t  tout;
-
-    g_FMC_i32ErrCode = 0;
-    FMC->ISPCMD = FMC_ISPCMD_PAGE_ERASE;
-    FMC->ISPADDR = FMC_SPROM_BASE;
-    FMC->ISPDAT = 0x0055AA03UL;
     FMC->ISPTRG = FMC_ISPTRG_ISPGO_Msk;
 
     tout = FMC_TIMEOUT_ERASE;
@@ -280,111 +146,6 @@ int32_t FMC_Erase_Bank(uint32_t u32BankAddr)
         return -1;
     }
     return 0;
-}
-
-/**
-  * @brief  Execute Erase XOM Region
-  *
-  * @param[in]  u32XomNum  The XOMRn(n=0~3)
-  *
-  * @return   XOM erase success or not.
-  * @retval    0  Success
-  * @retval   -1  Erase failed
-  * @retval   -2  Invalid XOM number.
-  *
-  * @details Execute FMC_ISPCMD_PAGE_ERASE command to erase XOM.
-  *
-  * @note     Global error code g_FMC_i32ErrCode
-  *           -1  Erase failed or erase time-out
-  *           -2  Invalid XOM number.
-  */
-int32_t FMC_EraseXOM(uint32_t u32XomNum)
-{
-    uint32_t  u32Addr;
-    int32_t   i32Active, err = 0;
-    int32_t   tout;
-
-    if(u32XomNum >= 4UL)
-    {
-        err = -2;
-    }
-
-    if (err == 0)
-    {
-        i32Active = FMC_GetXOMState(u32XomNum);
-
-        if(i32Active)
-        {
-            switch(u32XomNum)
-            {
-            case 0u:
-                u32Addr = (FMC->XOMR0STS & 0xFFFFFF00u) >> 8u;
-                break;
-            case 1u:
-                u32Addr = (FMC->XOMR1STS & 0xFFFFFF00u) >> 8u;
-                break;
-            case 2u:
-                u32Addr = (FMC->XOMR2STS & 0xFFFFFF00u) >> 8u;
-                break;
-            case 3u:
-                u32Addr = (FMC->XOMR3STS & 0xFFFFFF00u) >> 8u;
-                break;
-            default:
-                break;
-            }
-            FMC->ISPCMD = FMC_ISPCMD_PAGE_ERASE;
-            FMC->ISPADDR = u32Addr;
-            FMC->ISPDAT = 0x55aa03u;
-            FMC->ISPTRG = 0x1u;
-#if ISBEN
-            __ISB();
-#endif
-            tout = FMC_TIMEOUT_ERASE;
-            while ((tout-- > 0) && FMC->ISPTRG) {}
-            if (tout <= 0)
-                err = -1;
-
-            /* Check ISPFF flag to know whether erase OK or fail. */
-            if(FMC->ISPCTL & FMC_ISPCTL_ISPFF_Msk)
-            {
-                FMC->ISPCTL |= FMC_ISPCTL_ISPFF_Msk;
-                err = -1;
-            }
-        }
-        else
-        {
-            err = -1;
-        }
-    }
-    g_FMC_i32ErrCode = err;
-    return err;
-}
-
-/**
-  * @brief  Check the XOM is actived or not.
-  *
-  * @param[in] u32XomNum    The xom number(0~3).
-  *
-  * @retval   1   XOM is actived.
-  * @retval   0   XOM is not actived.
-  * @retval   -2  Invalid XOM number.
-  *
-  * @details To get specify XOMRn(n=0~3) active status
-  */
-int32_t FMC_GetXOMState(uint32_t u32XomNum)
-{
-    uint32_t u32act;
-    int32_t  ret = 0;
-
-    if (u32XomNum >= 4UL)
-        ret = -2;
-
-    if (ret >= 0)
-    {
-        u32act = (((FMC->XOMSTS) & 0xful) & (1ul << u32XomNum)) >> u32XomNum;
-        ret = (int32_t)u32act;
-    }
-    return ret;
 }
 
 /**
@@ -1140,14 +901,12 @@ uint32_t  FMC_CheckAllOne(uint32_t u32addr, uint32_t u32count)
   * @param[in] kpmax    Maximum unmatched power-on counting number.
   * @param[in] kemax    Maximum unmatched counting number.
   * @param[in] lock_CONFIG   1: Security key lock CONFIG to write-protect. 0: Don't lock CONFIG.
-  * @param[in] lock_SPROM    1: Security key lock SPROM to write-protect. 0: Don't lock SPROM.
   * @retval   0     Success.
   * @retval   -1    Key is locked. Cannot overwrite the current key.
   * @retval   -2    Failed to erase flash.
   * @retval   -3    Program key time-out failed
   * @retval   -4    Key lock function failed.
   * @retval   -5    CONFIG lock function failed.
-  * @retval   -6    SPROM lock function failed.
   * @retval   -7    KPMAX function failed.
   * @retval   -8    KEMAX function failed.
   *
@@ -1155,7 +914,7 @@ uint32_t  FMC_CheckAllOne(uint32_t u32addr, uint32_t u32count)
   *                 Same as the return value of this function.
   */
 int32_t  FMC_SetSPKey(uint32_t key[3], uint32_t kpmax, uint32_t kemax,
-                      const int32_t lock_CONFIG, const int32_t lock_SPROM)
+                      const int32_t lock_CONFIG)
 {
     uint32_t  lock_ctrl = 0UL;
     uint32_t  u32KeySts;
@@ -1182,11 +941,6 @@ int32_t  FMC_SetSPKey(uint32_t key[3], uint32_t kpmax, uint32_t kemax,
     if (!lock_CONFIG)
     {
         lock_ctrl |= 0x1UL;
-    }
-
-    if (!lock_SPROM)
-    {
-        lock_ctrl |= 0x2UL;
     }
 
     if (ret == 0)
@@ -1218,12 +972,6 @@ int32_t  FMC_SetSPKey(uint32_t key[3], uint32_t kpmax, uint32_t kemax,
         {
             /* CONFIG lock failed! */
             ret = -5;
-        }
-        else if ((lock_SPROM && (!(u32KeySts & FMC_KPKEYSTS_SPFLAG_Msk))) ||
-                 ((!lock_SPROM) && (u32KeySts & FMC_KPKEYSTS_SPFLAG_Msk)))
-        {
-            /* CONFIG lock failed! */
-            ret = -6;
         }
         else if (((FMC->KPCNT & FMC_KPCNT_KPMAX_Msk) >> FMC_KPCNT_KPMAX_Pos) != kpmax)
         {

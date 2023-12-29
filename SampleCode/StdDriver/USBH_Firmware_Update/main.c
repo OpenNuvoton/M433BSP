@@ -24,12 +24,6 @@
 
                                      Address            Description
                                      ---------------    -------------------------
-     +---------------------------+   0x200FFF
-     |  SPROM                    |                      User application in SPROM
-     +---------------------------+   0x200000
-     |                           |
-     ~                           ~
-     |                           |
      +---------------------------+   0x100FFF
      |  LDROM                    |                      USB firmware update code boots from LDROM
      |  (updater boot part)      |                      and branches to USB_UPDATER_BASE in APROM.

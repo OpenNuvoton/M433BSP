@@ -15,7 +15,6 @@
 #define SDH0_DRIVE          0               /* Assigned SDH0 drive number in FATFS        */
 
 #define APROM_FILE_NAME     "AP.BIN"        /* pre-defined APROM firmware update image    */
-#define SPROM_FILE_NAME     "SP.BIN"        /* pre-defined SPROM firmware update image    */
 #define DATA_FILE_NAME      "DATA.BIN"      /* pre-defined Data Flash update image        */
 
 
@@ -79,10 +78,7 @@ int  program_flash_page(uint32_t page_addr, uint32_t *buff, int count)
 
     printf("Program page 0x%x, count=%d\n", page_addr, count);
 
-    if (page_addr == FMC_SPROM_BASE)        /* is going to erase SPROM?                   */
-        FMC_Erase_SPROM();                  /* Erase the SPROM page                       */
-    else
-        FMC_Erase(page_addr);               /* Erase an APROM page                        */
+    FMC_Erase(page_addr);               /* Erase an APROM page                        */
 
     for (addr = page_addr; addr < page_addr+count; addr += 4, p++)      /* loop page      */
     {
@@ -149,38 +145,6 @@ void sdh_firmware_update()
             printf("APROM update success.\n");     /* firmware update success             */
         else
             printf("APROM update failed!\n");      /* firmware update failed              */
-
-        f_close(&file1);                    /* close file                                 */
-    }
-
-    /*------------------------------------------------------------------------------------*/
-    /*  Try to open SPROM firmware image. If opened successfully, read and update SPROM.  */
-    /*------------------------------------------------------------------------------------*/
-    /* Try to open SPROM firmware image file      */
-    if (f_open(&file1, SPROM_FILE_NAME, FA_OPEN_EXISTING | FA_READ))
-    {
-        printf("SPROM image [%s] not found.\n", SPROM_FILE_NAME);    /* File not found    */
-    }
-    else
-    {
-        printf("SPROM image [%s] found, start update SPROM firmware...\n", SPROM_FILE_NAME);
-        FMC_ENABLE_SP_UPDATE();             /* Enable SPROM update                        */
-        cnt = FMC_FLASH_PAGE_SIZE;          /* read a flash page size data from file      */
-        res = f_read(&file1, _Buff, cnt, &cnt);  /* read file                             */
-        if ((res == FR_OK) && cnt)          /* read operation success?                    */
-        {
-            /* update SPROM firmware page                 */
-            if (program_flash_page(FMC_SPROM_BASE, (uint32_t *)_Buff, cnt) != 0)
-            {
-                f_close(&file1);            /* program failed! Close file.                */
-                return;                     /* Abort...                                   */
-            }
-        }
-
-        if (f_eof(&file1))                  /* reach end-of-file?                         */
-            printf("SPROM update success.\n");   /* firmware update success               */
-        else
-            printf("SPROM update failed!\n");    /* firmware update failed                */
 
         f_close(&file1);                    /* close file                                 */
     }

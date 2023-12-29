@@ -36,13 +36,6 @@ extern "C"
 #define FMC_APROM_BANK0_END     (FMC_APROM_END/2UL)  /*!< APROM bank0 end address     \hideinitializer */
 #define FMC_LDROM_BASE          0x00100000UL    /*!< LDROM base address          \hideinitializer */
 #define FMC_LDROM_END           0x00101000UL    /*!< LDROM end address           \hideinitializer */
-#define FMC_SPROM_BASE          0x00200000UL    /*!< SPROM base address          \hideinitializer */
-#define FMC_SPROM_END           0x00201000UL    /*!< SPROM end address           \hideinitializer */
-#define FMC_XOM_BASE            0x00200000UL    /*!< XOM  Base Address           \hideinitializer */
-#define FMC_XOMR0_BASE          0x00200000UL    /*!< XOMR 0 Base Address         \hideinitializer */
-#define FMC_XOMR1_BASE          0x00200010UL    /*!< XOMR 1 Base Address         \hideinitializer */
-#define FMC_XOMR2_BASE          0x00200020UL    /*!< XOMR 2 Base Address         \hideinitializer */
-#define FMC_XOMR3_BASE          0x00200030UL    /*!< XOMR 3 Base Address         \hideinitializer */
 #define FMC_CONFIG_BASE         0x00300000UL    /*!< User Configuration address  \hideinitializer */
 #define FMC_USER_CONFIG_0       0x00300000UL    /*!< User Config 0 address       \hideinitializer */
 #define FMC_USER_CONFIG_1       0x00300004UL    /*!< User Config 1 address       \hideinitializer */
@@ -57,16 +50,7 @@ extern "C"
 #define FMC_APROM_SIZE          FMC_APROM_END   /*!< APROM Size                  \hideinitializer */
 #define FMC_BANK_SIZE           (FMC_APROM_SIZE/2UL) /*!< APROM Bank Size        \hideinitializer */
 #define FMC_LDROM_SIZE          0x1000UL        /*!< LDROM Size (4 Kbytes)       \hideinitializer */
-#define FMC_SPROM_SIZE          0x1000UL        /*!< SPROM Size (4 Kbytes)       \hideinitializer */
 #define FMC_OTP_ENTRY_CNT       256UL           /*!< OTP entry number            \hideinitializer */
-
-/*---------------------------------------------------------------------------------------------------------*/
-/*  XOM region number constant definitions                                                                 */
-/*---------------------------------------------------------------------------------------------------------*/
-#define XOMR0   0UL                             /*!< XOM region 0     */
-#define XOMR1   1UL                             /*!< XOM region 1     */
-#define XOMR2   2UL                             /*!< XOM region 2     */
-#define XOMR3   3UL                             /*!< XOM region 3     */
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  ISPCTL constant definitions                                                                            */
@@ -124,8 +108,6 @@ extern "C"
 #define FMC_DISABLE_CFG_UPDATE()    (FMC->ISPCTL &= ~FMC_ISPCTL_CFGUEN_Msk)     /*!< Disable User Config update \hideinitializer */
 #define FMC_ENABLE_LD_UPDATE()      (FMC->ISPCTL |=  FMC_ISPCTL_LDUEN_Msk)      /*!< Enable LDROM update        \hideinitializer */
 #define FMC_DISABLE_LD_UPDATE()     (FMC->ISPCTL &= ~FMC_ISPCTL_LDUEN_Msk)      /*!< Disable LDROM update       \hideinitializer */
-#define FMC_ENABLE_SP_UPDATE()      (FMC->ISPCTL |=  FMC_ISPCTL_SPUEN_Msk)      /*!< Enable SPROM update        \hideinitializer */
-#define FMC_DISABLE_SP_UPDATE()     (FMC->ISPCTL &= ~FMC_ISPCTL_SPUEN_Msk)      /*!< Disable SPROM update       \hideinitializer */
 #define FMC_DISABLE_ISP()           (FMC->ISPCTL &= ~FMC_ISPCTL_ISPEN_Msk)      /*!< Disable ISP function       \hideinitializer */
 #define FMC_ENABLE_ISP()            (FMC->ISPCTL |=  FMC_ISPCTL_ISPEN_Msk)      /*!< Enable ISP function        \hideinitializer */
 #define FMC_GET_FAIL_FLAG()         ((FMC->ISPCTL & FMC_ISPCTL_ISPFF_Msk) ? 1UL : 0UL)  /*!< Get ISP fail flag  \hideinitializer */
@@ -327,13 +309,9 @@ __STATIC_INLINE int32_t FMC_SetVectorPageAddr(uint32_t u32PageAddr)
 /*---------------------------------------------------------------------------------------------------------*/
 
 extern void     FMC_Close(void);
-extern int32_t  FMC_ConfigXOM(uint32_t xom_num, uint32_t xom_base, uint8_t xom_page);
 extern int32_t  FMC_Erase(uint32_t u32PageAddr);
-extern int32_t  FMC_Erase_SPROM(void);
 extern int32_t  FMC_Erase_Block(uint32_t u32BlockAddr);
 extern int32_t  FMC_Erase_Bank(uint32_t u32BankAddr);
-extern int32_t  FMC_EraseXOM(uint32_t xom_num);
-extern int32_t  FMC_GetXOMState(uint32_t xom_num);
 extern int32_t  FMC_GetBootSource(void);
 extern void     FMC_Open(void);
 extern uint32_t FMC_Read(uint32_t u32Addr);
@@ -351,7 +329,7 @@ extern int32_t  FMC_ReadConfig(uint32_t u32Config[], uint32_t u32Count);
 extern int32_t  FMC_WriteConfig(uint32_t u32Config[], uint32_t u32Count);
 extern uint32_t FMC_GetChkSum(uint32_t u32addr, uint32_t u32count);
 extern uint32_t FMC_CheckAllOne(uint32_t u32addr, uint32_t u32count);
-extern int32_t  FMC_SetSPKey(uint32_t key[3], uint32_t kpmax, uint32_t kemax, const int32_t lock_CONFIG, const int32_t lock_SPROM);
+extern int32_t  FMC_SetSPKey(uint32_t key[3], uint32_t kpmax, uint32_t kemax, const int32_t lock_CONFIG);
 extern int32_t  FMC_CompareSPKey(uint32_t key[3]);
 
 

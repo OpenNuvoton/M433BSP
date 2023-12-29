@@ -43,10 +43,6 @@ typedef struct
      * |        |          |0 = Booting from APROM when MBS (CONFIG0[5]) is 1.
      * |        |          |1 = Booting from LDROM when MBS (CONFIG0[5]) is 1.
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
-     * |[2]     |SPUEN     |SPROM Update Enable Bit (Write Protect)
-     * |        |          |0 = SPROM cannot be updated.
-     * |        |          |1 = SPROM can be updated.
-     * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[3]     |APUEN     |APROM Update Enable Bit (Write Protect)
      * |        |          |0 = APROM cannot be updated when the chip runs in APROM.
      * |        |          |1 = APROM can be updated when the chip runs in APROM.
@@ -66,20 +62,16 @@ typedef struct
      * |        |          |(1) APROM writes to itself if APUEN is set to 0.
      * |        |          |(2) LDROM writes to itself if LDUEN is set to 0.
      * |        |          |(3) CONFIG is erased/programmed if CFGUEN is set to 0.
-     * |        |          |(4) SPROM is erased/programmed if SPUEN is set to 0
-     * |        |          |(5) SPROM is programmed at SPROM secured mode.
-     * |        |          |(6) Page Erase command at LOCK mode with ICE connection
-     * |        |          |(7) Erase or Program command at brown-out detected
-     * |        |          |(8) Destination address is illegal, such as over an available range.
-     * |        |          |(9) Invalid ISP commands
-     * |        |          |(10) Vector address is mapping to SPROM region
-     * |        |          |(11) KPROM is erased/programmed if KEYLOCK is set to 1
-     * |        |          |(12) APROM(except for Data Flash) is erased/programmed if KEYLOCK is set to 1
-     * |        |          |(13) LDROM is erased/programmed if KEYLOCK is set to 1
-     * |        |          |(14) SPROM is erased/programmed if KEYLOCK is set to 1 and KEYENROM[1:0] are 1.
-     * |        |          |(15) CONFIG is erased/programmed if KEYLOCK is set to 1 and KEYENROM[1:0] are 1
-     * |        |          |(16) Invalid operations (except for chip erase) with ICE connection if SBLOCK is not 0x5A
-     * |        |          |(17) Read any content of boot loader with ICE connection
+     * |        |          |(4) Page Erase command at LOCK mode with ICE connection
+     * |        |          |(5) Erase or Program command at brown-out detected
+     * |        |          |(6) Destination address is illegal, such as over an available range.
+     * |        |          |(7) Invalid ISP commands
+     * |        |          |(8) KPROM is erased/programmed if KEYLOCK is set to 1
+     * |        |          |(9) APROM(except for Data Flash) is erased/programmed if KEYLOCK is set to 1
+     * |        |          |(10) LDROM is erased/programmed if KEYLOCK is set to 1
+     * |        |          |(11) CONFIG is erased/programmed if KEYLOCK is set to 1 and KEYENROM[1:0] are 1
+     * |        |          |(12) Invalid operations (except for chip erase) with ICE connection if SBLOCK is not 0x5A
+     * |        |          |(13) Read any content of boot loader with ICE connection
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[16]    |BL        |Boot Loader Booting (Write Protect)
      * |        |          |This bit is initiated with the inversed value of MBS (CONFIG0[5])
@@ -193,20 +185,16 @@ typedef struct
      * |        |          |(1) APROM writes to itself if APUEN is set to 0.
      * |        |          |(2) LDROM writes to itself if LDUEN is set to 0.
      * |        |          |(3) CONFIG is erased/programmed if CFGUEN is set to 0.
-     * |        |          |(4) SPROM is erased/programmed if SPUEN is set to 0
-     * |        |          |(5) SPROM is programmed at SPROM secured mode.
-     * |        |          |(6) Page Erase command at LOCK mode with ICE connection
-     * |        |          |(7) Erase or Program command at brown-out detected
-     * |        |          |(8) Destination address is illegal, such as over an available range.
-     * |        |          |(9) Invalid ISP commands
-     * |        |          |(10) Vector address is mapping to SPROM region.
-     * |        |          |(11) KPROM is erased/programmed if KEYLOCK is set to 1
-     * |        |          |(12) APROM(except for Data Flash) is erased/programmed if KEYLOCK is set to 1
-     * |        |          |(13) LDROM is erased/programmed if KEYLOCK is set to 1
-     * |        |          |(14) SPROM is erased/programmed if KEYLOCK is set to 1 and KEYENROM[1:0] are 1.
-     * |        |          |(15) CONFIG is erased/programmed if KEYLOCK is set to 1 and KEYENROM[1:0] are 1.
-     * |        |          |(16) Invalid operations (except for chip erase) with ICE connection if SBLOCK is not 0x5A
-     * |        |          |(17) Read any content of boot loader with ICE connection
+     * |        |          |(4) Page Erase command at LOCK mode with ICE connection
+     * |        |          |(5) Erase or Program command at brown-out detected
+     * |        |          |(6) Destination address is illegal, such as over an available range.
+     * |        |          |(7) Invalid ISP commands
+     * |        |          |(8) KPROM is erased/programmed if KEYLOCK is set to 1
+     * |        |          |(9) APROM(except for Data Flash) is erased/programmed if KEYLOCK is set to 1
+     * |        |          |(10) LDROM is erased/programmed if KEYLOCK is set to 1
+     * |        |          |(11) CONFIG is erased/programmed if KEYLOCK is set to 1 and KEYENROM[1:0] are 1.
+     * |        |          |(12) Invalid operations (except for chip erase) with ICE connection if SBLOCK is not 0x5A
+     * |        |          |(13) Read any content of boot loader with ICE connection
      * |        |          |Note: This bit is write protected. Refer to the SYS_REGLCTL register.
      * |[7]     |ALLONE    |Flash All-one Verification Flag
      * |        |          |This bit is set by hardware if all of flash bits are 1, and clear if flash bits are not all 1 after "Run Flash All-One Verification" complete; this bit also can be clear by writing 1
@@ -214,10 +202,6 @@ typedef struct
      * |        |          |1 = Flash bits are not all 1 after "Run Flash All-One Verification" complete.
      * |[23:9]  |VECMAP    |Vector Page Mapping Address (Read Only)
      * |        |          |All access to 0x0000_0000~0x0000_01FF is remapped to the flash memory address {VECMAP[14:0], 9u2019h000} ~ {VECMAP[14:0], 9u2019h1FF}
-     * |[31]    |SCODE     |Security Code Active Flag
-     * |        |          |This bit is set by hardware when detecting SPROM secured code is active at flash initiation, or software writes 1 to this bit to make secured code active; this bit is clear by SPROM page erase operation.
-     * |        |          |0 = Secured code is inactive.
-     * |        |          |1 = Secured code is active.
      * @var FMC_T::CYCCTL
      * Offset: 0x4C  Flash Access Cycle Control Register
      * ---------------------------------------------------------------------------------------------------
@@ -295,7 +279,6 @@ typedef struct
      * |        |          |  - FORBID(FMC_KPKEYSTS[3]) is 1
      * |        |          |0 = KPROM, LDROM and APROM (not include Data Flash) is not in write protection.
      * |        |          |1 = KPROM, LDROM and APROM (not include Data Flash) is in write protection.
-     * |        |          |SPROM write protect is depended on SPFLAG.
      * |        |          |CONFIG write protect is depended on CFGFLAG
      * |[2]     |KEYMATCH  |KEY Match Flag (Read Only)
      * |        |          |This bit is set to 1 after KEY comparison complete if the KEY0, KEY1 and KEY2 are matched with the 96-bit security keys in KPROM; and cleared to 0 if KEYs are unmatched
@@ -323,12 +306,6 @@ typedef struct
      * |        |          |This bit is set to 1 by hardware while KEYENROM[0] is programmed to 0.
      * |        |          |0 = CONFIG write-protection is disabled.
      * |        |          |1 = CONFIG write-protection is enabled.
-     * |[6]     |SPFLAG    |SPROM Write-protection Enabled Flag (Read Only)
-     * |        |          |This bit is set while the KEYENROM [1] is 0 at power-on or reset
-     * |        |          |This bit is cleared to 0 by hardware while KPROM is erased
-     * |        |          |This bit is set to 1 by hardware while KEYENROM[1] is programmed to 0.
-     * |        |          |0 = SPROM write-protection is disabled.
-     * |        |          |1 = SPROM write-protection is enabled.
      * @var FMC_T::KPKEYCNT
      * Offset: 0x64  KPROM KEY-Unmatched Counting Register
      * ---------------------------------------------------------------------------------------------------
@@ -402,13 +379,10 @@ typedef struct
      * |        |          |(1) APROM writes to itself if APUEN is set to 0.
      * |        |          |(2) LDROM writes to itself if LDUEN is set to 0.
      * |        |          |(3) CONFIG is erased/programmed if CFGUEN is set to 0.
-     * |        |          |(4) SPROM is erased/programmed if SPUEN is set to 0
-     * |        |          |(5) SPROM is programmed at SPROM secured mode.
-     * |        |          |(6) Page Erase command at LOCK mode with ICE connection
-     * |        |          |(7) Erase or Program command at brown-out detected
-     * |        |          |(8) Destination address is illegal, such as over an available range.
-     * |        |          |(9) Invalid ISP commands
-     * |        |          |(10) Vector address is mapping to SPROM region.
+     * |        |          |(4) Page Erase command at LOCK mode with ICE connection
+     * |        |          |(5) Erase or Program command at brown-out detected
+     * |        |          |(6) Destination address is illegal, such as over an available range.
+     * |        |          |(7) Invalid ISP commands
      * |[4]     |D0        |ISP DATA 0 Flag (Read Only)
      * |        |          |This bit is set when FMC_MPDAT0 is written and auto-clear to 0 when the FMC_MPDAT0 data is programmed to flash complete.
      * |        |          |0 = FMC_MPDAT0 register is empty, or program to flash complete.
@@ -470,12 +444,6 @@ typedef struct
     /// @cond HIDDEN_SYMBOLS
     __I  uint32_t RESERVE4[2];
     /// @endcond //HIDDEN_SYMBOLS
-    __I  uint32_t XOMR0STS;              /*!< [0x00d0] XOM Region 0 Status Register                                     */
-    __I  uint32_t XOMR1STS;              /*!< [0x00d4] XOM Region 1 Status Register                                     */
-    __I  uint32_t XOMR2STS;              /*!< [0x00d8] XOM Region 2 Status Register                                     */
-    __I  uint32_t XOMR3STS;              /*!< [0x00dc] XOM Region 3 Status Register                                     */
-    __I  uint32_t XOMSTS;                /*!< [0x00e0] XOM Status Register                                              */
-
 } FMC_T;
 
 /**
@@ -635,45 +603,6 @@ typedef struct
 
 #define FMC_MPADDR_MPADDR_Pos            (0)                                               /*!< FMC_T::MPADDR: MPADDR Position         */
 #define FMC_MPADDR_MPADDR_Msk            (0xfffffffful << FMC_MPADDR_MPADDR_Pos)           /*!< FMC_T::MPADDR: MPADDR Mask             */
-
-#define FMC_XOMR0STS_SIZE_Pos            (0)                                               /*!< FMC_T::XOMR0STS: SIZE Position         */
-#define FMC_XOMR0STS_SIZE_Msk            (0xfful << FMC_XOMR0STS_SIZE_Pos)                 /*!< FMC_T::XOMR0STS: SIZE Mask             */
-
-#define FMC_XOMR0STS_BASE_Pos            (8)                                               /*!< FMC_T::XOMR0STS: BASE Position         */
-#define FMC_XOMR0STS_BASE_Msk            (0xfffffful << FMC_XOMR0STS_BASE_Pos)             /*!< FMC_T::XOMR0STS: BASE Mask             */
-
-#define FMC_XOMR1STS_SIZE_Pos            (0)                                               /*!< FMC_T::XOMR1STS: SIZE Position         */
-#define FMC_XOMR1STS_SIZE_Msk            (0xfful << FMC_XOMR1STS_SIZE_Pos)                 /*!< FMC_T::XOMR1STS: SIZE Mask             */
-
-#define FMC_XOMR1STS_BASE_Pos            (8)                                               /*!< FMC_T::XOMR1STS: BASE Position         */
-#define FMC_XOMR1STS_BASE_Msk            (0xfffffful << FMC_XOMR1STS_BASE_Pos)             /*!< FMC_T::XOMR1STS: BASE Mask             */
-
-#define FMC_XOMR2STS_SIZE_Pos            (0)                                               /*!< FMC_T::XOMR2STS: SIZE Position         */
-#define FMC_XOMR2STS_SIZE_Msk            (0xfful << FMC_XOMR2STS_SIZE_Pos)                 /*!< FMC_T::XOMR2STS: SIZE Mask             */
-
-#define FMC_XOMR2STS_BASE_Pos            (8)                                               /*!< FMC_T::XOMR2STS: BASE Position         */
-#define FMC_XOMR2STS_BASE_Msk            (0xfffffful << FMC_XOM20STS_BASE_Pos)             /*!< FMC_T::XOMR2STS: BASE Mask             */
-
-#define FMC_XOMR3STS_SIZE_Pos            (0)                                               /*!< FMC_T::XOMR3STS: SIZE Position         */
-#define FMC_XOMR3STS_SIZE_Msk            (0xfful << FMC_XOMR3STS_SIZE_Pos)                 /*!< FMC_T::XOMR3STS: SIZE Mask             */
-
-#define FMC_XOMR3STS_BASE_Pos            (8)                                               /*!< FMC_T::XOMR3STS: BASE Position         */
-#define FMC_XOMR3STS_BASE_Msk            (0xfffffful << FMC_XOMR3STS_BASE_Pos)             /*!< FMC_T::XOMR3STS: BASE Mask             */
-
-#define FMC_XOMSTS_XOMR0ON_Pos           (0)                                               /*!< FMC_T::XOMSTS: XOMR0ON Position        */
-#define FMC_XOMSTS_XOMR0ON_Msk           (0x1ul << FMC_XOMSTS_XOMR0ON_Pos)                 /*!< FMC_T::XOMSTS: XOMR0ON Mask            */
-
-#define FMC_XOMSTS_XOMR1ON_Pos           (1)                                               /*!< FMC_T::XOMSTS: XOMR1ON Position        */
-#define FMC_XOMSTS_XOMR1ON_Msk           (0x1ul << FMC_XOMSTS_XOMR1ON_Pos)                 /*!< FMC_T::XOMSTS: XOMR1ON Mask            */
-
-#define FMC_XOMSTS_XOMR2ON_Pos           (2)                                               /*!< FMC_T::XOMSTS: XOMR2ON Position        */
-#define FMC_XOMSTS_XOMR2ON_Msk           (0x1ul << FMC_XOMSTS_XOMR2ON_Pos)                 /*!< FMC_T::XOMSTS: XOMR2ON Mask            */
-
-#define FMC_XOMSTS_XOMR3ON_Pos           (3)                                               /*!< FMC_T::XOMSTS: XOMR3ON Position        */
-#define FMC_XOMSTS_XOMR3ON_Msk           (0x1ul << FMC_XOMSTS_XOMR3ON_Pos)                 /*!< FMC_T::XOMSTS: XOMR3ON Mask            */
-
-#define FMC_XOMSTS_XOMPEF_Pos            (4)                                               /*!< FMC_T::XOMSTS: XOMPEF Position         */
-#define FMC_XOMSTS_XOMPEF_Msk            (0x1ul << FMC_XOMSTS_XOMPEF_Pos)                  /*!< FMC_T::XOMSTS: XOMPEF Mask             */
 
 /**@}*/ /* FMC_CONST */
 /**@}*/ /* end of FMC register group */

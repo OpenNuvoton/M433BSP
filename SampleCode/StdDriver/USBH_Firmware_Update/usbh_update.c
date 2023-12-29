@@ -17,7 +17,6 @@
 #define USBH_DRIVE          3               /* Assigned USBH drive number in FATFS        */
 
 #define APROM_FILE_NAME     "AP.BIN"        /* pre-defined APROM firmware update image    */
-#define SPROM_FILE_NAME     "SP.BIN"        /* pre-defined SPROM firmware update image    */
 #define DATA_FILE_NAME      "DATA.BIN"      /* pre-defined Data Flash update image        */
 
 
@@ -83,10 +82,7 @@ int  program_flash_page(uint32_t page_addr, uint32_t *buff, int count)
 
     printf("Program page 0x%x, count=%d\n", page_addr, count);
 
-    if (page_addr == FMC_SPROM_BASE)        /* is going to erase SPROM?                   */
-        FMC_Erase_SPROM();                  /* Erase the SPROM page                       */
-    else
-        FMC_Erase(page_addr);               /* Erase an APROM page                        */
+    FMC_Erase(page_addr);               /* Erase an APROM page                        */
 
     for (addr = page_addr; addr < page_addr+count; addr += 4, p++)      /* loop page      */
     {

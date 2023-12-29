@@ -80,8 +80,6 @@ void dump_key_status()
         printf("[KEY LOCK] ");                        /* KEYFLAG(FMC_KEYSTS[4]) */
     if (FMC->KPKEYSTS & FMC_KPKEYSTS_CFGFLAG_Msk)
         printf("[CONFIG LOCK] ");                     /* CFGFLAG(FMC_KEYSTS[5]) */
-    if (FMC->KPKEYSTS & FMC_KPKEYSTS_SPFLAG_Msk)
-        printf("[SPROM LOCK] \n");                    /* SPFLAG(FMC_KEYSTS[6]) */
 
     printf("KPCNT: 0x%x, KPMAX: 0x%x\n", (FMC->KPCNT & FMC_KPCNT_KPCNT_Msk) >> FMC_KPCNT_KPCNT_Pos,    /* KPCNT(FMC_KPCNT[3:0])  */
            (FMC->KPCNT & FMC_KPCNT_KPMAX_Msk) >> FMC_KPCNT_KPMAX_Pos);   /* KPMAX(FMC_KPCNT[11:8]) */
