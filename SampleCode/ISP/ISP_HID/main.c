@@ -14,7 +14,7 @@
 #define PLLCON_SETTING          CLK_PLLCTL_144MHz_HXT
 #define PLL_CLOCK               144000000
 #define HCLK_DIV                        1
-#define USBD_DIV                        4
+#define USBD_DIV                        3
 
 uint32_t CLK_GetPLLClockFreq(void)
 {

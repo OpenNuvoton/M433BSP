@@ -13,7 +13,7 @@
 #define PLLCON_SETTING          CLK_PLLCTL_144MHz_HXT
 #define PLL_CLOCK               144000000
 #define HCLK_DIV                        2
-#define USBD_DIV                        4
+#define USBD_DIV                        3
 
 #define V6M_AIRCR_VECTKEY_DATA    0x05FA0000UL
 #define V6M_AIRCR_SYSRESETREQ     0x00000004UL
