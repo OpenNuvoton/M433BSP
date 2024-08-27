@@ -227,7 +227,7 @@ void put_dump (
     int i;
 
 
-    printf("%08x ", addr);
+    printf("%08x ", (UINT)addr);
 
     for (i = 0; i < cnt; i++)
         printf(" %02x", buff[i]);
@@ -585,7 +585,7 @@ int32_t main(void)
                     break;
                 }
                 sect = p2 + 1;
-                printf("Sector:%d\n", p2);
+                printf("Sector:%d\n", (INT)p2);
                 for (buf=(unsigned char*)Buff, ofs = 0; ofs < 0x200; buf+=16, ofs+=16)
                     put_dump(buf, ofs, 16);
                 break;
@@ -607,8 +607,8 @@ int32_t main(void)
                         printf("%d KB\n", (s1*BUFF_SIZE)/1024);
                 }
                 p1 = get_timer_value();
-                printf("time = %d.%02d\n", p1/100, p1 % 100);
-                printf("Raw read speed: %d KB/s\n", ((0x800000 * 100) / p1)/1024);
+                printf("time = %d.%02d\n", (INT)(p1/100), (INT)(p1 % 100));
+                printf("Raw read speed: %d KB/s\n", (INT)(((0x800000 * 100) / p1)/1024));
 
                 printf("Raw sector write performance test...\n");
                 timer_init();
@@ -626,8 +626,8 @@ int32_t main(void)
                         printf("%d KB\n", (s1*BUFF_SIZE)/1024);
                 }
                 p1 = get_timer_value();
-                printf("time = %d.%02d\n", p1/100, p1 % 100);
-                printf("Raw write speed: %d KB/s\n", ((0x800000 * 100) / p1)/1024);
+                printf("time = %d.%02d\n", (INT)(p1/100), (INT)(p1 % 100));
+                printf("Raw write speed: %d KB/s\n", (INT)(((0x800000 * 100) / p1)/1024));
                 break;
 
             case 'z' :  /* dz - file read/write performance test */
@@ -677,8 +677,8 @@ int32_t main(void)
                 }
                 p1 = get_timer_value();
                 f_close(&file1);
-                printf("time = %d.%02d\n", p1/100, p1 % 100);
-                printf("File read speed: %d KB/s\n", ((0x800000 * 100) / p1)/1024);
+                printf("time = %d.%02d\n", (INT)(p1/100), (INT)(p1 % 100));
+                printf("File read speed: %d KB/s\n", (INT)(((0x800000 * 100) / p1)/1024));
                 break;
             }
             break;
@@ -757,9 +757,9 @@ int32_t main(void)
                 printf("FAT type = FAT%d\nBytes/Cluster = %d\nNumber of FATs = %d\n"
                        "Root DIR entries = %d\nSectors/FAT = %d\nNumber of clusters = %d\n"
                        "FAT start (lba) = %d\nDIR start (lba,clustor) = %d\nData start (lba) = %d\n\n...",
-                       ft[fs->fs_type & 3], fs->csize * 512UL, fs->n_fats,
-                       fs->n_rootdir, fs->fsize, fs->n_fatent - 2,
-                       fs->fatbase, fs->dirbase, fs->database
+  							       ft[fs->fs_type & 3], (UINT)(fs->csize * 512UL), fs->n_fats,
+                       fs->n_rootdir, (INT)fs->fsize, (INT)(fs->n_fatent - 2),
+                       (INT)fs->fatbase, (INT)fs->dirbase, (INT)fs->database
                       );
                 acc_size = acc_files = acc_dirs = 0;
 #if _USE_LFN
@@ -774,8 +774,8 @@ int32_t main(void)
                 }
                 printf("\r%d files, %d bytes.\n%d folders.\n"
                        "%d KB total disk space.\n%d KB available.\n",
-                       acc_files, acc_size, acc_dirs,
-                       (fs->n_fatent - 2) * (fs->csize / 2), p2 * (fs->csize / 2)
+								       acc_files, (INT)acc_size, acc_dirs,
+                       (INT)((fs->n_fatent - 2) * (fs->csize / 2)), (INT)(p2 * (fs->csize / 2))
                       );
                 break;
             case 'l' :  /* fl [<path>] - Directory listing */
@@ -807,7 +807,7 @@ int32_t main(void)
                            (Finfo.fattrib & AM_SYS) ? 'S' : '-',
                            (Finfo.fattrib & AM_ARC) ? 'A' : '-',
                            (Finfo.fdate >> 9) + 1980, (Finfo.fdate >> 5) & 15, Finfo.fdate & 31,
-                           (Finfo.ftime >> 11), (Finfo.ftime >> 5) & 63, Finfo.fsize, Finfo.fname);
+                           (Finfo.ftime >> 11), (Finfo.ftime >> 5) & 63, (INT)Finfo.fsize, Finfo.fname);
 #if _USE_LFN
                     for (p2 = strlen(Finfo.fname); p2 < 14; p2++)
                         printf(" ");
@@ -816,9 +816,9 @@ int32_t main(void)
                     printf("\n");
 #endif
                 }
-                printf("%4d File(s),%10d bytes total\n%4d Dir(s)", s1, p1, s2);
+                printf("%4d File(s),%10d bytes total\n%4d Dir(s)", s1, (INT)p1, s2);
                 if (f_getfree(ptr, (DWORD*)&p1, &fs) == FR_OK)
-                    printf(", %10d bytes free\n", p1 * fs->csize * 512);
+                    printf(", %10d bytes free\n", (INT)(p1 * fs->csize * 512));
                 break;
 
 
@@ -837,7 +837,7 @@ int32_t main(void)
                 res = f_lseek(&file1, p1);
                 put_rc(res);
                 if (res == FR_OK)
-                    printf("fptr=%d(0x%lX)\n", file1.fptr, file1.fptr);
+                    printf("fptr=%d(0x%lX)\n", (INT)file1.fptr, file1.fptr);
                 break;
 
             case 'd' :  /* fd <len> - read and dump file from current fp */
@@ -894,7 +894,7 @@ int32_t main(void)
                 }
                 p1 = get_timer_value();
                 if (p1)
-                    printf("%d bytes read with %d kB/sec.\n", p2, ((p2 * 100) / p1)/1024);
+                    printf("%d bytes read with %d kB/sec.\n", (INT)p2, (INT)(((p2 * 100) / p1)/1024));
                 break;
 
             case 'w' :  /* fw <len> <val> - write file */
@@ -925,7 +925,7 @@ int32_t main(void)
                 }
                 p1 = get_timer_value();
                 if (p1)
-                    printf("%d bytes written with %d kB/sec.\n", p2, ((p2 * 100) / p1)/1024);
+                    printf("%d bytes written with %d kB/sec.\n", (INT)p2, (INT)(((p2 * 100) / p1)/1024));
                 break;
 
             case 'n' :  /* fn <old_name> <new_name> - Change file/dir name */
@@ -999,10 +999,10 @@ int32_t main(void)
                     if (res || s2 < s1) break;   /* error or disk full */
 
                     if ((p1 % 0x10000) == 0)
-                        printf("\n%d KB copyed.", p1/1024);
+                        printf("\n%d KB copyed.", (INT)(p1/1024));
                     printf(".");
                 }
-                printf("\n%d bytes copied.\n", p1);
+                printf("\n%d bytes copied.\n", (INT)p1);
                 f_close(&file1);
                 f_close(&file2);
                 break;
@@ -1058,7 +1058,7 @@ int32_t main(void)
                     }
 
                     if ((p1 % 0x10000) == 0)
-                        printf("\n%d KB compared.", p1/1024);
+                        printf("\n%d KB compared.", (INT)(p1/1024));
                     printf(".");
                 }
                 if (s1 == 0)

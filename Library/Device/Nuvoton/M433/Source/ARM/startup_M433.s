@@ -1,10 +1,10 @@
 ;/******************************************************************************
 ; * @file     startup_M433.s
-; * @version  V1.00
+; * @version  V2.00
 ; * @brief    CMSIS Cortex-M4 Core Device Startup File for M433
 ; *
 ; * SPDX-License-Identifier: Apache-2.0
-; * @copyright (C) 2017-2020 Nuvoton Technology Corp. All rights reserved.
+; * @copyright (C) 2024 Nuvoton Technology Corp. All rights reserved.
 ;*****************************************************************************/
 ;/*
 ;//-------- <<< Use Configuration Wizard in Context Menu >>> ------------------
@@ -204,9 +204,9 @@ Reset_Handler   PROC
 	IF :LNOT: :DEF: ENABLE_SPIM_CACHE
                 LDR     R0, =0x40000200            ; R0 = Clock Controller Register Base Address
                 LDR     R1, [R0,#0x4]              ; R1 = 0x40000204  (AHBCLK)
-                ORR     R1, R1, #0x4000              
+                ORR     R1, R1, #0x4000
                 STR     R1, [R0,#0x4]              ; CLK->AHBCLK |= CLK_AHBCLK_SPIMCKEN_Msk;
-                
+
                 LDR     R0, =0x40007000            ; R0 = SPIM Register Base Address
                 LDR     R1, [R0,#4]                ; R1 = SPIM->CTL1
                 ORR     R1, R1,#2                  ; R1 |= SPIM_CTL1_CACHEOFF_Msk
@@ -231,7 +231,7 @@ Reset_Handler   PROC
 
                 LDR     R0, =__main
                 BX      R0
- 
+
                 ENDP
 
 
@@ -243,8 +243,15 @@ NMI_Handler     PROC
                 ENDP
 HardFault_Handler\
                 PROC
+                IMPORT  ProcessHardFault
                 EXPORT  HardFault_Handler         [WEAK]
-                B       .
+                ;B       .
+                MOV     R0, LR
+                MRS     R1, MSP
+                MRS     R2, PSP
+                LDR     R3, =ProcessHardFault
+                BLX     R3
+                BX      R0
                 ENDP
 MemManage_Handler\
                 PROC
@@ -494,6 +501,28 @@ __user_initial_stackheap PROC
 
                 ENDIF
 
+;int32_t SH_DoCommand(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0)
+SH_DoCommand    PROC
+
+                EXPORT      SH_DoCommand
+                IMPORT      SH_Return
+
+                BKPT   0xAB                ; Wait ICE or HardFault
+                LDR    R3, =SH_Return
+                MOV    R4, lr
+                BLX    R3                  ; Call SH_Return. The return value is in R0
+                BX     R4                  ; Return value = R0
+
+                ENDP
+
+__PC            PROC
+                EXPORT      __PC
+
+                MOV     r0, lr
+                BLX     lr
+                ALIGN
+
+                ENDP
 
                 END
-;/*** (C) COPYRIGHT 2017 Nuvoton Technology Corp. ***/
+;/*** (C) COPYRIGHT 2024 Nuvoton Technology Corp. ***/

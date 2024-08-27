@@ -1,6 +1,6 @@
 /**************************************************************************//**
  * @file     M433.h
- * @version  V1.00
+ * @version  V2.00
  * @brief    M433 peripheral access layer header file.
  *           This file contains all the peripheral register's definitions,
  *           bits definitions and memory mapping for NuMicro M433 MCU.
@@ -183,11 +183,18 @@ IRQn_Type;
 /*@}*/ /* end of group CMSIS_Device */
 
 
-#include "core_cm4.h"               /* Cortex-M4 processor and core peripherals           */
+#include "core_cm4.h"               /* Cortex-M4 processor and core peripherals    */
 #include "system_M433.h"            /* System include file                         */
 #include <stdint.h>
 
-
+#if defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
+#define __current_pc()                                                         \
+  __extension__({                                                              \
+    register unsigned int current_pc;                                          \
+    __asm__ __volatile__("mov %0, pc" : "=r"(current_pc) : : );                \
+    current_pc;                                                                \
+  })
+#endif
 
 #if defined ( __CC_ARM   )
 #pragma anon_unions

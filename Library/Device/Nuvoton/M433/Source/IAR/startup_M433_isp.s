@@ -182,9 +182,9 @@ Reset_Handler
 	#ifndef ENABLE_SPIM_CACHE
         LDR     R0, =0x40000200            ; R0 = Clock Controller Register Base Address
         LDR     R1, [R0,#0x4]              ; R1 = 0x40000204  (AHBCLK)
-        ORR     R1, R1, #0x4000              
+        ORR     R1, R1, #0x4000
         STR     R1, [R0,#0x4]              ; CLK->AHBCLK |= CLK_AHBCLK_SPIMCKEN_Msk;
-                
+
         LDR     R0, =0x40007000            ; R0 = SPIM Register Base Address
         LDR     R1, [R0,#4]                ; R1 = SPIM->CTL1
         ORR     R1, R1,#2                  ; R1 |= SPIM_CTL1_CACHEOFF_Msk
@@ -250,94 +250,94 @@ PendSV_Handler
 SysTick_Handler
         B SysTick_Handler
 
-        PUBWEAK  BOD_IRQHandler   
-        PUBWEAK  IRC_IRQHandler   
-        PUBWEAK  PWRWU_IRQHandler 
-        PUBWEAK  RAMPE_IRQHandler 
+        PUBWEAK  BOD_IRQHandler
+        PUBWEAK  IRC_IRQHandler
+        PUBWEAK  PWRWU_IRQHandler
+        PUBWEAK  RAMPE_IRQHandler
         PUBWEAK  CKFAIL_IRQHandler
-        PUBWEAK  Default_Handler  
-        PUBWEAK  RTC_IRQHandler   
+        PUBWEAK  Default_Handler
+        PUBWEAK  RTC_IRQHandler
         PUBWEAK  TAMPER_IRQHandler
-        PUBWEAK  WDT_IRQHandler   
-        PUBWEAK  WWDT_IRQHandler  
-        PUBWEAK  EINT0_IRQHandler 
-        PUBWEAK  EINT1_IRQHandler 
-        PUBWEAK  EINT2_IRQHandler 
-        PUBWEAK  EINT3_IRQHandler 
-        PUBWEAK  EINT4_IRQHandler 
-        PUBWEAK  EINT5_IRQHandler 
-        PUBWEAK  GPA_IRQHandler   
-        PUBWEAK  GPB_IRQHandler   
-        PUBWEAK  GPC_IRQHandler   
-        PUBWEAK  GPD_IRQHandler   
-        PUBWEAK  GPE_IRQHandler   
-        PUBWEAK  GPF_IRQHandler   
-        PUBWEAK  TMR0_IRQHandler  
-        PUBWEAK  TMR1_IRQHandler  
-        PUBWEAK  UART0_IRQHandler 
-        PUBWEAK  UART1_IRQHandler 
-        PUBWEAK  I2C0_IRQHandler  
-        PUBWEAK  I2C1_IRQHandler  
-        PUBWEAK  PDMA_IRQHandler  
+        PUBWEAK  WDT_IRQHandler
+        PUBWEAK  WWDT_IRQHandler
+        PUBWEAK  EINT0_IRQHandler
+        PUBWEAK  EINT1_IRQHandler
+        PUBWEAK  EINT2_IRQHandler
+        PUBWEAK  EINT3_IRQHandler
+        PUBWEAK  EINT4_IRQHandler
+        PUBWEAK  EINT5_IRQHandler
+        PUBWEAK  GPA_IRQHandler
+        PUBWEAK  GPB_IRQHandler
+        PUBWEAK  GPC_IRQHandler
+        PUBWEAK  GPD_IRQHandler
+        PUBWEAK  GPE_IRQHandler
+        PUBWEAK  GPF_IRQHandler
+        PUBWEAK  TMR0_IRQHandler
+        PUBWEAK  TMR1_IRQHandler
+        PUBWEAK  UART0_IRQHandler
+        PUBWEAK  UART1_IRQHandler
+        PUBWEAK  I2C0_IRQHandler
+        PUBWEAK  I2C1_IRQHandler
+        PUBWEAK  PDMA_IRQHandler
         PUBWEAK  ACMP01_IRQHandler
-        PUBWEAK  UART2_IRQHandler 
-        PUBWEAK  UART3_IRQHandler 
-        PUBWEAK  QSPI1_IRQHandler 
-        PUBWEAK  SPI1_IRQHandler  
-        PUBWEAK  SPI2_IRQHandler  
-        PUBWEAK  USBD_IRQHandler  
-        PUBWEAK  OHCI_IRQHandler  
-        PUBWEAK  SDH0_IRQHandler  
+        PUBWEAK  UART2_IRQHandler
+        PUBWEAK  UART3_IRQHandler
+        PUBWEAK  QSPI1_IRQHandler
+        PUBWEAK  SPI1_IRQHandler
+        PUBWEAK  SPI2_IRQHandler
+        PUBWEAK  USBD_IRQHandler
+        PUBWEAK  OHCI_IRQHandler
+        PUBWEAK  SDH0_IRQHandler
         PUBWEAK  CRYPTO_IRQHandler
-        PUBWEAK  GPG_IRQHandler   
-        PUBWEAK  SPIM_IRQHandler  
-        PUBWEAK  GPH_IRQHandler   
-        PUBWEAK  SDH1_IRQHandler  
+        PUBWEAK  GPG_IRQHandler
+        PUBWEAK  SPIM_IRQHandler
+        PUBWEAK  GPH_IRQHandler
+        PUBWEAK  SDH1_IRQHandler
         SECTION .text:CODE:REORDER:NOROOT(1)
 
 
-BOD_IRQHandler    
-IRC_IRQHandler    
-PWRWU_IRQHandler  
-RAMPE_IRQHandler  
-CKFAIL_IRQHandler 
-RTC_IRQHandler    
-TAMPER_IRQHandler 
-WDT_IRQHandler    
-WWDT_IRQHandler   
-EINT0_IRQHandler  
-EINT1_IRQHandler  
-EINT2_IRQHandler  
-EINT3_IRQHandler  
-EINT4_IRQHandler  
-EINT5_IRQHandler  
+BOD_IRQHandler
+IRC_IRQHandler
+PWRWU_IRQHandler
+RAMPE_IRQHandler
+CKFAIL_IRQHandler
+RTC_IRQHandler
+TAMPER_IRQHandler
+WDT_IRQHandler
+WWDT_IRQHandler
+EINT0_IRQHandler
+EINT1_IRQHandler
+EINT2_IRQHandler
+EINT3_IRQHandler
+EINT4_IRQHandler
+EINT5_IRQHandler
 GPA_IRQHandler
 GPB_IRQHandler
 GPC_IRQHandler
 GPD_IRQHandler
 GPE_IRQHandler
 GPF_IRQHandler
-TMR0_IRQHandler   
-TMR1_IRQHandler   
-UART0_IRQHandler  
-UART1_IRQHandler  
-I2C0_IRQHandler   
-I2C1_IRQHandler   
-PDMA_IRQHandler     
-ACMP01_IRQHandler   
-UART2_IRQHandler  
-UART3_IRQHandler  
-QSPI1_IRQHandler  
-SPI1_IRQHandler   
-SPI2_IRQHandler   
-USBD_IRQHandler   
-OHCI_IRQHandler  
-SDH0_IRQHandler   
-CRYPTO_IRQHandler 
-GPG_IRQHandler    
-SPIM_IRQHandler   
-GPH_IRQHandler    
-SDH1_IRQHandler 
+TMR0_IRQHandler
+TMR1_IRQHandler
+UART0_IRQHandler
+UART1_IRQHandler
+I2C0_IRQHandler
+I2C1_IRQHandler
+PDMA_IRQHandler
+ACMP01_IRQHandler
+UART2_IRQHandler
+UART3_IRQHandler
+QSPI1_IRQHandler
+SPI1_IRQHandler
+SPI2_IRQHandler
+USBD_IRQHandler
+OHCI_IRQHandler
+SDH0_IRQHandler
+CRYPTO_IRQHandler
+GPG_IRQHandler
+SPIM_IRQHandler
+GPH_IRQHandler
+SDH1_IRQHandler
 Default_Handler
         B Default_Handler
 

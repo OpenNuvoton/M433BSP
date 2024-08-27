@@ -73,10 +73,9 @@ void UART0_Init(void)
  *  Set stack base address to SP register.
  */
 #ifdef __ARMCC_VERSION                 /* for Keil compiler */
-__asm __set_SP(uint32_t _sp)
+void __set_SP(uint32_t _sp)
 {
-    MSR MSP, r0
-    BX lr
+    __set_MSP(_sp);
 }
 #endif
 
@@ -140,7 +139,7 @@ void Hard_Fault_Handler(uint32_t stack[])
 
 int main()
 {
-#ifdef __GNUC__                        /* for GNU C compiler */
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)  /* for GNU C compiler */
     uint32_t    u32Data;
 #endif
     FUNC_PTR    *func;                 /* function pointer */
@@ -149,7 +148,7 @@ int main()
 
     UART0_Init();                      /* Initialize UART0 */
 
-#ifdef __GNUC__
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)
     PutString("[LDROM code]\n");
 #else
     PutString("\n\n");
@@ -191,11 +190,11 @@ int main()
      *  The stack base address of an executable image is located at offset 0x0.
      *  Thus, this sample get stack base address of APROM code from FMC_APROM_BASE + 0x0.
      */
-#ifdef __GNUC__                        /* for GNU C compiler */
+#if defined (__GNUC__) && !defined(__ARMCC_VERSION)  /* for GNU C compiler */
     u32Data = *(uint32_t *)FMC_LDROM_BASE;
     asm("msr msp, %0" : : "r" (u32Data));
 #else
-    __set_SP(*(uint32_t *)FMC_APROM_BASE);
+    __set_SP(inpw(FMC_APROM_BASE));
 #endif
 
     /*

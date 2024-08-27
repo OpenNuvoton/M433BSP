@@ -11,7 +11,7 @@
             <name>C-SPY</name>
             <archiveVersion>2</archiveVersion>
             <data>
-                <version>32</version>
+                <version>31</version>
                 <wantNonLocal>1</wantNonLocal>
                 <debug>0</debug>
                 <option>
@@ -44,7 +44,7 @@
                 </option>
                 <option>
                     <name>MemFile</name>
-                    <state>$TOOLKIT_DIR$\CONFIG\debugger\Nuvoton\iom433ae.ddf</state>
+                    <state>$TOOLKIT_DIR$\CONFIG\debugger\Nuvoton\iom480ae.ddf</state>
                 </option>
                 <option>
                     <name>RunToEnable</name>
@@ -88,7 +88,7 @@
                 </option>
                 <option>
                     <name>OCLastSavedByProductVersion</name>
-                    <state>8.42.1.23678</state>
+                    <state>8.40.1.21529</state>
                 </option>
                 <option>
                     <name>UseFlashLoader</name>
@@ -112,7 +112,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\M433_APROM.board</state>
+                    <state>$TOOLKIT_DIR$\config\flashloader\Nuvoton\M481_APROM.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>
@@ -217,10 +217,6 @@
                 <option>
                     <name>OCMulticoreSessionFile</name>
                     <state></state>
-                </option>
-                <option>
-                    <name>OCTpiuBaseOption</name>
-                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -1122,8 +1118,8 @@
                 </option>
                 <option>
                     <name>CCSTLinkProbeList</name>
-                    <version>1</version>
-                    <state>0</state>
+                    <version>0</version>
+                    <state>1</state>
                 </option>
             </data>
         </settings>

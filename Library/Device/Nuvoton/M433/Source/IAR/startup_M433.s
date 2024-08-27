@@ -1,10 +1,10 @@
 ;/******************************************************************************
 ; * @file     startup_M433.s
-; * @version  V1.00
+; * @version  V2.00
 ; * @brief    CMSIS Cortex-M4 Core Device Startup File for M433
 ; *
 ; * SPDX-License-Identifier: Apache-2.0
-; * @copyright (C) 2017-2020 Nuvoton Technology Corp. All rights reserved.
+; * @copyright (C) 2024 Nuvoton Technology Corp. All rights reserved.
 ;*****************************************************************************/
 
         MODULE  ?cstartup
@@ -15,7 +15,7 @@
         SECTION .intvec:CODE:NOROOT(2)
 
         EXTERN  __iar_program_start
-        EXTERN  HardFault_Handler
+        EXTERN  ProcessHardFault
         EXTERN  SystemInit
         PUBLIC  __vector_table
         PUBLIC  __vector_table_0x1c
@@ -182,9 +182,9 @@ Reset_Handler
 	#ifndef ENABLE_SPIM_CACHE
         LDR     R0, =0x40000200            ; R0 = Clock Controller Register Base Address
         LDR     R1, [R0,#0x4]              ; R1 = 0x40000204  (AHBCLK)
-        ORR     R1, R1, #0x4000              
+        ORR     R1, R1, #0x4000
         STR     R1, [R0,#0x4]              ; CLK->AHBCLK |= CLK_AHBCLK_SPIMCKEN_Msk;
-                
+
         LDR     R0, =0x40007000            ; R0 = SPIM Register Base Address
         LDR     R1, [R0,#4]                ; R1 = SPIM->CTL1
         ORR     R1, R1,#2                  ; R1 |= SPIM_CTL1_CACHEOFF_Msk
@@ -209,6 +209,20 @@ Reset_Handler
 
         LDR     R0, =__iar_program_start
         BX      R0
+
+        PUBWEAK HardFault_Handler
+HardFault_Handler\
+
+        MOV     R0, LR
+        MRS     R1, MSP
+        MRS     R2, PSP
+        LDR     R3, =ProcessHardFault
+        BLX     R3
+        BX      R0
+
+          PUBWEAK ProcessHardFaultx
+ProcessHardFaultx\
+        B       .
 
         PUBWEAK NMI_Handler
         SECTION .text:CODE:REORDER:NOROOT(1)
@@ -438,7 +452,35 @@ Default_Handler
         B Default_Handler
 
 
+;void SH_ICE(void)
+    PUBLIC    SH_ICE
+SH_ICE
+    CMP   R2,#0
+    BEQ   SH_End
+    STR   R0,[R2]   ; Save the return value to *pn32Out_R0
+
+;void SH_End(void)
+    PUBLIC    SH_End
+SH_End
+    MOVS   R0,#1    ; Set return value to 1
+    BX     lr       ; Return
+
+
+;int32_t SH_DoCommand(int32_t n32In_R0, int32_t n32In_R1, int32_t *pn32Out_R0)
+    PUBLIC    SH_DoCommand
+SH_DoCommand
+    BKPT   0xAB             ; This instruction will cause ICE trap or system HardFault
+    B      SH_ICE
+SH_HardFault                ; Captured by HardFault
+    MOVS   R0,#0            ; Set return value to 0
+    BX     lr               ; Return
+
+
+    PUBLIC    __PC
+__PC
+        MOV     r0, lr
+        BLX     lr
 
 
         END
-;/*** (C) COPYRIGHT 2016 Nuvoton Technology Corp. ***/
+;/*** (C) COPYRIGHT 2024 Nuvoton Technology Corp. ***/
