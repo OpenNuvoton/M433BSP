@@ -19,7 +19,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="../../m4.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">M433 BSP<span id="projectnumber">&#160;V3.00.001</span>
+   <div id="projectname">M433 BSP<span id="projectnumber">&#160;V3.01.000</span>
    </div>
    <div id="projectbrief">The Board Support Package for M433</div>
   </td>
@@ -1113,7 +1113,7 @@ $(function() {
 <div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span>{</div>
 <div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span> USB_debug(<span class="stringliteral">&quot;\n  [IFACE info] (0x%x)\n&quot;</span>, (<span class="keywordtype">int</span>)iface);</div>
 <div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span> USB_debug(<span class="stringliteral">&quot;  ----------------------------------------------\n&quot;</span>);</div>
-<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span> USB_debug(<span class="stringliteral">&quot;  udev       = 0x%x\n&quot;</span>, iface-&gt;udev);</div>
+<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span> USB_debug(<span class="stringliteral">&quot;  udev       = 0x%x\n&quot;</span>, (<span class="keywordtype">int</span>)iface-&gt;udev);</div>
 <div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span> USB_debug(<span class="stringliteral">&quot;  if_num     = %d\n&quot;</span>, iface-&gt;if_num);</div>
 <div class="line"><a id="l01226" name="l01226"></a><span class="lineno"> 1226</span> USB_debug(<span class="stringliteral">&quot;  driver     = 0x%x\n&quot;</span>, (<span class="keywordtype">int</span>)iface-&gt;driver);</div>
 <div class="line"><a id="l01227" name="l01227"></a><span class="lineno"> 1227</span> USB_debug(<span class="stringliteral">&quot;  next       = 0x%x\n&quot;</span>, (<span class="keywordtype">int</span>)iface-&gt;next);</div>
@@ -1136,9 +1136,9 @@ $(function() {
 <div class="line"><a id="l01245" name="l01245"></a><span class="lineno"> 1245</span><span class="comment">/*** (C) COPYRIGHT 2017 Nuvoton Technology Corp. ***/</span></div>
 <div class="ttc" id="a_nu_micro_8h_html"><div class="ttname"><a href="../../d6/d7f/_nu_micro_8h.html">NuMicro.h</a></div><div class="ttdoc">NuMicro peripheral access layer header file.</div></div>
 <div class="ttc" id="agroup___c_m_s_i_s___device_html_gga666eb0caeb12ec0e281415592ae89083a0af9c632c31a395de4feb31cf35a8229"><div class="ttname"><a href="../../d8/d5e/group___c_m_s_i_s___device.html#gga666eb0caeb12ec0e281415592ae89083a0af9c632c31a395de4feb31cf35a8229">USBH_IRQn</a></div><div class="ttdeci">@ USBH_IRQn</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dff/_m433_8h_source.html#l00133">M433.h:133</a></div></div>
-<div class="ttc" id="agroup___legacy___constants_html_ga070d2ce7b6bb7e5c05602aa8c308d0c4"><div class="ttname"><a href="../../d5/d46/group___legacy___constants.html#ga070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></div><div class="ttdeci">#define NULL</div><div class="ttdoc">NULL pointer.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dff/_m433_8h_source.html#l00542">M433.h:542</a></div></div>
-<div class="ttc" id="agroup___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n_html_ga82e359d74617572f0ab6de9e235b9462"><div class="ttname"><a href="../../da/ddf/group___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n.html#ga82e359d74617572f0ab6de9e235b9462">USBH</a></div><div class="ttdeci">#define USBH</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dff/_m433_8h_source.html#l00347">M433.h:347</a></div></div>
-<div class="ttc" id="agroup___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n_html_gae3d9f52a1a315303ad04f0576bd42a25"><div class="ttname"><a href="../../da/ddf/group___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n.html#gae3d9f52a1a315303ad04f0576bd42a25">SYS</a></div><div class="ttdeci">#define SYS</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dff/_m433_8h_source.html#l00326">M433.h:326</a></div></div>
+<div class="ttc" id="agroup___legacy___constants_html_ga070d2ce7b6bb7e5c05602aa8c308d0c4"><div class="ttname"><a href="../../d5/d46/group___legacy___constants.html#ga070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</a></div><div class="ttdeci">#define NULL</div><div class="ttdoc">NULL pointer.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dff/_m433_8h_source.html#l00549">M433.h:549</a></div></div>
+<div class="ttc" id="agroup___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n_html_ga82e359d74617572f0ab6de9e235b9462"><div class="ttname"><a href="../../da/ddf/group___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n.html#ga82e359d74617572f0ab6de9e235b9462">USBH</a></div><div class="ttdeci">#define USBH</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dff/_m433_8h_source.html#l00354">M433.h:354</a></div></div>
+<div class="ttc" id="agroup___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n_html_gae3d9f52a1a315303ad04f0576bd42a25"><div class="ttname"><a href="../../da/ddf/group___p_e_r_i_p_h_e_r_a_l___d_e_c_l_a_r_a_t_i_o_n.html#gae3d9f52a1a315303ad04f0576bd42a25">SYS</a></div><div class="ttdeci">#define SYS</div><div class="ttdef"><b>Definition:</b> <a href="../../da/dff/_m433_8h_source.html#l00333">M433.h:333</a></div></div>
 <div class="ttc" id="agroup___r_e_g_i_s_t_e_r_html_ga08461ca98ca33ce29e2f33caf4a28f68"><div class="ttname"><a href="../../d5/d5c/group___r_e_g_i_s_t_e_r.html#ga08461ca98ca33ce29e2f33caf4a28f68">SYS_CSERVER_VERSION_Msk</a></div><div class="ttdeci">#define SYS_CSERVER_VERSION_Msk</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3d/sys__reg_8h_source.html#l03375">sys_reg.h:3375</a></div></div>
 <div class="ttc" id="agroup___r_e_g_i_s_t_e_r_html_ga4e5ad633c7fb4bba185c4cecbe1fe84d"><div class="ttname"><a href="../../d5/d5c/group___r_e_g_i_s_t_e_r.html#ga4e5ad633c7fb4bba185c4cecbe1fe84d">USBH_HcRhStatus_DRWE_Msk</a></div><div class="ttdeci">#define USBH_HcRhStatus_DRWE_Msk</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d31/usbh__reg_8h_source.html#l00730">usbh_reg.h:730</a></div></div>
 <div class="ttc" id="agroup___r_e_g_i_s_t_e_r_html_ga5dc179adaf8abcc9185aa54b97fdc8c7"><div class="ttname"><a href="../../d5/d5c/group___r_e_g_i_s_t_e_r.html#ga5dc179adaf8abcc9185aa54b97fdc8c7">USBH_HcRhPortStatus_PSS_Msk</a></div><div class="ttdeci">#define USBH_HcRhPortStatus_PSS_Msk</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d31/usbh__reg_8h_source.html#l00748">usbh_reg.h:748</a></div></div>
@@ -1179,7 +1179,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 29 2023 12:03:43 for M433 BSP by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
+Generated on Wed Oct 16 2024 09:58:21 for M433 BSP by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.3
 </small></address>
 </body>
 </html>
